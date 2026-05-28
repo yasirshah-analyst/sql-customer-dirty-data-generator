@@ -156,8 +156,7 @@ FROM generate_series(1,500) i;
 -- =========================================================
 
 select * 
-from customers_dirty;
-                            ```
+from customers_dirty;```
 
 ## Raw Data
 
