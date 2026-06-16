@@ -1,51 +1,79 @@
-# SQL Customer Dirty Data Creation Project
+# SQL Customer Data Cleaning Project
 
 ## 📌 Project Overview
-This project focuses on creating a messy customer dataset using SQL for data cleaning practice.
 
-The dataset intentionally contains:
+This project demonstrates an end-to-end data cleaning workflow using SQL and Excel.
 
-Duplicate values
-Invalid emails
-Missing phone numbers
-Inconsistent city names
-Incorrect country values
-Mixed date formats
-Numeric outliers
-Text values inside numeric columns
+A deliberately messy customer dataset was first generated in PostgreSQL using SQL scripts containing common real-world data quality issues. The dataset was then exported to Excel, where it was cleaned, validated, and transformed into an analysis-ready dataset.
+
+The project showcases practical data cleaning techniques used by data analysts to improve data quality and ensure accurate reporting and analysis.
+
+---
+
+## 🎯 Project Objectives
+
+- Generate a realistic dirty customer dataset using SQL.
+- Simulate common data quality issues found in business datasets.
+- Identify and clean inconsistent, incomplete, and invalid records in Excel.
+- Standardize text, dates, and numeric fields.
+- Handle missing values, duplicates, and formatting issues.
+- Produce a clean dataset suitable for analysis and reporting.
+- Demonstrate an end-to-end data cleaning workflow for a data analytics portfolio.
 
 ---
 
 ## 🗂️ Dataset Description
 
-This dataset simulates customer information including:
+The dataset contains customer information including:
 
-- Customer ID  
-- Name  
-- Email  
-- Phone number  
-- City  
-- Country  
-- Signup date  
-- Amount  
+- Customer ID
+- Name
+- Email
+- Phone Number
+- City
+- Country
+- Signup Date
+- Amount
 
-The data is intentionally messy.
+A total of 500 records were generated with intentional data quality issues for cleaning practice.
 
 ---
 
 ## 📁 Project Structure
 
-```id="proj1"
-sql-customers-dirty-data-creation/
+```text
+sql-customer-dirty-data-generator/
+│
+├── Data/
+│   ├── Raw/
+│   │   └── customers_dirty.csv
+│   │
+│   └── clean/
+│       └── customers_clean.csv
 │
 ├── SQL/
 │   └── customers_dirty_creation.sql
 │
-├── Data/
-│   └── Raw/
-│       └── customers_dirty.csv
-│           
+├── cleaning/
+│   ├── clean_amount_1.png
+│   ├── clean_amount_2.png
+│   ├── clean_amount_3.png
+│   ├── clean_city.png
+│   ├── clean_country.png
+│   ├── clean_date.png
+│   ├── clean_email.png
+│   ├── clean_phone_1.png
+│   ├── clean_phone_f.png
+│   ├── final_clean.png
+│   ├── raw_phone.png
+│   ├── raw_phone3.png
+│   ├── raw_phone_2.png
+│   └── trim(b2).png
+│
 └── README.md
+```
+---
+
 ```
 
 ## 🏗️ Create Table
@@ -158,6 +186,7 @@ FROM generate_series(1,500) i;
 select * 
 from customers_dirty;
 ```
+---
 
 ## Raw Data
 
@@ -165,43 +194,105 @@ from customers_dirty;
 
 ---
 
-## ⚠️ Intentional Data Issues
 
-| Column       | Issue                     |
-|--------------|--------------------------|
-| name         | duplicates, extra spaces |
-| email        | invalid + duplicates     |
-| phone        | NULL + inconsistent format |
-| city         | casing issues + blanks   |
-| country      | wrong values             |
-| signup_date  | mixed formats            |
-| amount       | text + outliers          |
+## ⚠️ Simulated Data Quality Issues
 
----
-
-## 🛠️ SQL Concepts Used
-
-- CREATE TABLE  
-- INSERT INTO  
-- CASE WHEN  
-- generate_series()
+| Column | Issues Introduced |
+|----------|----------|
+| Name | Extra spaces, repeated names |
+| Email | Invalid and duplicate emails |
+| Phone | Missing values and invalid formats |
+| City | Inconsistent capitalization and blank values |
+| Country | Incorrect country codes |
+| Signup Date | Mixed date formats |
+| Amount | Non-numeric values and outliers |
 
 ---
 
-## 👤 Author
+## 🛠️ Tools Used
 
-Yasir Shah  
-SQL Data Analytics Portfolio Project
-
-
+- PostgreSQL
+- SQL
+- Microsoft Excel
 
 ---
 
-# Excel Data Cleaning Project
+## 📁 Project Structure
+
+```text
+sql-customer-dirty-data-generator/
+│
+├── SQL/
+│   └── customers_dirty_creation.sql
+│
+├── Data/
+│   ├── Raw/
+│   │   └── customers_dirty.csv
+│   │
+│   └── Clean/
+│       └── customers_clean.csv
+│
+├── cleaning/
+│   ├── clean_email.png
+│   ├── clean_phone.png
+│   ├── clean_city.png
+│   ├── clean_country.png
+│   ├── clean_date.png
+│   ├── clean_amount.png
+│   └── final_clean.png
+│
+└── README.md
+```
+
+---
+
+# 1️⃣ SQL Data Generation
+
+## Create Table
+
+```sql
+CREATE TABLE customers_dirty (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    email TEXT,
+    phone TEXT,
+    city TEXT,
+    country TEXT,
+    signup_date TEXT,
+    amount TEXT
+);
+```
+
+## Generate Dirty Data
+
+The dataset was intentionally populated with:
+
+- Invalid email addresses
+- Duplicate email records
+- Missing phone numbers
+- Incorrect phone formats
+- Inconsistent city capitalization
+- Incorrect country values
+- Mixed date formats
+- Text values in numeric fields
+- Numeric outliers
+
+using SQL `CASE WHEN` statements and `generate_series()`.
+
+---
+
+## 📥 Raw Dataset
+
+[View Raw Dataset](Data/Raw/customers_dirty.csv)
+
+---
+
+# 2️⃣ Excel Data Cleaning Process
 
 ## Step 1: Inspect the Dataset
 
 ### Checked all columns for:
+
 - Missing values
 - Duplicate records
 - Invalid formats
@@ -214,22 +305,20 @@ SQL Data Analytics Portfolio Project
 ## Step 2: Clean Name Column
 
 ### Issues Found
-Extra leading and trailing spaces in names.
 
-### Example
+- Leading and trailing spaces
+- Repeated names
 
-| Before |
-|----------|
-|   Ali Khan   |
+### Actions Taken
 
-### Actions
-- Removed unnecessary leading and trailing spaces.
-- Standardized name formatting.
+- Removed extra spaces using `TRIM()`
+- Standardized name formatting
+- Verified duplicates using ID and Email
 
-### Using
+### Formula Used
 
 ```excel
-=TRIM(A2)
+=TRIM(B2)
 ```
 
 ---
@@ -238,22 +327,31 @@ Extra leading and trailing spaces in names.
 
 ### Issues Found
 
-**Invalid Emails**
-- invalidemail.com
-
-**Duplicate Emails**
-- test@test.com appeared multiple times
-
-### Actions
-- Flagged invalid email addresses.
-- Identified duplicate email records.
-- Excluded duplicate emails from analysis where necessary.
+- Invalid email addresses
+- Duplicate email records
+- Test/Fake email addresses
 
 ### Examples
 
-| Invalid Email | Duplicate Email |
-|--------------|----------------|
-| invalidemail.com | test@test.com |
+- invalidemail.com
+- test@test.com
+
+### Actions Taken
+
+- Flagged invalid email formats
+- Identified test/fake emails
+- Created Email Status classification
+- Excluded invalid records from analysis
+
+### Email Status Categories
+
+- Valid
+- Invalid Format
+- Test/Fake Email
+
+### Cleaning Evidence
+
+![Email Cleaning](cleaning/clean_email.png)
 
 ---
 
@@ -261,22 +359,24 @@ Extra leading and trailing spaces in names.
 
 ### Issues Found
 
-**Invalid Format**
-- 123-456-789
-
-**Missing Values**
-- NULL
-
-### Actions
-- Standardized phone number formatting.
-- Converted NULL values to blank cells.
-- Flagged invalid phone numbers for review.
+- Invalid phone format
+- Missing values
 
 ### Examples
 
-| Invalid Phone |
-|--------------|
-| 123-456-789 |
+- 123-456-789
+- NULL
+
+### Actions Taken
+
+- Removed invalid formatting
+- Converted NULL values to blanks
+- Validated phone number length
+- Flagged invalid phone records
+
+### Cleaning Evidence
+
+![Phone Cleaning](cleaning/clean_phone.png)
 
 ---
 
@@ -284,15 +384,20 @@ Extra leading and trailing spaces in names.
 
 ### Issues Found
 
-Different spellings and capitalization:
-
 - Islamabad
 - karachi
 - LAHORE
 
-### Actions
-- Standardized city names.
-- Applied proper capitalization.
+### Actions Taken
+
+- Standardized city names
+- Applied proper capitalization
+
+### Formula Used
+
+```excel
+=PROPER(E2)
+```
 
 ### Standardized Values
 
@@ -300,11 +405,9 @@ Different spellings and capitalization:
 - Karachi
 - Lahore
 
-### Using
+### Cleaning Evidence
 
-```excel
-=PROPER(A2)
-```
+![City Cleaning](cleaning/clean_city.png)
 
 ---
 
@@ -315,15 +418,20 @@ Different spellings and capitalization:
 - Pakistan
 - IND
 
-### Actions
-- Standardized country names.
-- Replaced abbreviations with full country names.
+### Actions Taken
+
+- Standardized country names
+- Replaced abbreviations with full country names
 
 ### Example
 
 | Before | After |
-|---------|--------|
+|----------|----------|
 | IND | India |
+
+### Cleaning Evidence
+
+![Country Cleaning](cleaning/clean_country.png)
 
 ---
 
@@ -333,9 +441,10 @@ Different spellings and capitalization:
 
 Blank city records.
 
-### Actions
-- Identified missing city values.
-- Replaced with "Unknown" or left blank according to business requirements.
+### Actions Taken
+
+- Identified missing values
+- Replaced with "Unknown" where appropriate
 
 ---
 
@@ -343,22 +452,23 @@ Blank city records.
 
 ### Issues Found
 
-**Non-Numeric Values**
+Non-numeric values:
+
 - abc
 
-**Potential Outliers**
+Outliers:
+
 - 999999
 
-### Actions
-- Converted Amount column to numeric format.
-- Flagged non-numeric values.
-- Investigated extreme outliers.
+### Actions Taken
 
-### Examples
+- Converted values to numeric format
+- Flagged non-numeric entries
+- Investigated extreme outliers
 
-| Invalid Value | Outlier |
-|--------------|---------|
-| abc | 999999 |
+### Cleaning Evidence
+
+![Amount Cleaning](cleaning/clean_amount.png)
 
 ---
 
@@ -366,70 +476,76 @@ Blank city records.
 
 ### Issues Found
 
-Dates that could be interpreted differently:
+Mixed date formats.
+
+### Examples
 
 - 1/2/2023
 - 12/5/2023
 
-### Actions
-- Converted all dates to a consistent format.
-- Standardized dates using ISO format.
+### Actions Taken
 
-### Standardized Format
+- Converted all dates to a consistent format
+- Standardized dates using ISO format
+
+### Final Format
 
 ```text
 YYYY-MM-DD
 ```
 
-### Examples
+### Cleaning Evidence
 
-| Original | Standardized |
-|-----------|-------------|
-| 1/2/2023 | 2023-01-02 |
-| 12/5/2023 | 2023-12-05 |
+![Date Cleaning](cleaning/clean_date.png)
 
 ---
 
-## Step 10: Check Duplicate Names
+## Step 10: Verify ID Column
 
-### Issues Found
+### Actions Taken
 
-Repeated names:
-
-- Sara Ahmed
-- Ali Khan
-
-### Actions
-- Verified records using Email and ID.
-- Did not remove records because names alone do not indicate duplicates.
+- Checked for missing IDs
+- Checked for duplicate IDs
+- Confirmed primary key integrity
 
 ---
 
-## Step 11: Verify ID Column
+# 3️⃣ Cleaned Dataset
 
-### Actions
-- Checked for missing IDs.
-- Checked for duplicate IDs.
-- Confirmed primary key integrity.
+After completing the cleaning process, a clean version of the dataset was created for analysis and reporting.
+
+[View Clean Dataset](Data/Clean/customers_clean.csv)
+
+### Final Output
+
+![Final Clean Dataset](cleaning/final_clean.png)
 
 ---
 
-# Project Summary
+# ✅ Key Cleaning Outcomes
 
-### Data Cleaning in Excel
+- Removed leading and trailing spaces from text fields.
+- Identified invalid and duplicate email records.
+- Standardized phone number formats and handled missing values.
+- Corrected inconsistent city and country values.
+- Converted dates into a consistent format.
+- Validated numeric fields and flagged outliers.
+- Verified dataset integrity through duplicate and missing-value checks.
+- Produced a clean, analysis-ready customer dataset.
 
-✔ Removed extra spaces from name fields using TRIM().
+---
 
-✔ Identified and flagged invalid email addresses and duplicate email records.
+## 🧠 SQL Concepts Used
 
-✔ Standardized city and country values for consistency.
+- CREATE TABLE
+- INSERT INTO
+- CASE WHEN
+- generate_series()
 
-✔ Cleaned phone number formats and handled missing values.
+---
 
-✔ Converted date fields into a consistent format.
+## 👤 Author
 
-✔ Validated transaction amounts and flagged non-numeric values and outliers.
+**Yasir Shah**
 
-✔ Verified data integrity through duplicate and missing-value checks.
-
-✔ Prepared a clean, analysis-ready dataset for reporting and dashboard creation.
+Aspiring Data Analyst | SQL | Excel | Data Cleaning | Data Analytics
