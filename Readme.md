@@ -305,6 +305,10 @@ The dataset was intentionally populated using SQL `CASE WHEN` statements and `ge
 
 ## Step 6: Clean Country Column
 
+```excel
+=PROPER(IF(G2="IND","India",G2))
+```
+
 ### Cleaning Evidence
 
 ![Country Cleaning](cleaning/clean_country.png)
