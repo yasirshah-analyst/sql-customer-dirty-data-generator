@@ -294,7 +294,7 @@ The dataset was intentionally populated using SQL `CASE WHEN` statements and `ge
 ### Formula Used
 
 ```excel
-=PROPER(E2)
+=PROPER(IF(F2="","Missing",F2))
 ```
 
 ### Cleaning Evidence
