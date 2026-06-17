@@ -272,9 +272,23 @@ The dataset was intentionally populated using SQL `CASE WHEN` statements and `ge
 - Converted NULL values to blanks
 - Flagged invalid phone records
 
+```excel
+=if(C2="invalidemail.com","Invalid_Format",if(C2="test@test.com","Test/Fake_Email","Valid"))
+```
+
 ### Cleaning Evidence
 
-![Phone Cleaning](cleaning/clean_phone_1.png)
+![Phone Cleaning](cleaning/raw_phone.png)
+
+![Phone Cleaning](cleanin/raw_phone_2.png)
+
+[Phone Cleaning](cleaning/raw_phone3.png)
+
+[Phone Cleaning](cleaning/clean_phone_1.png)
+
+[Phone Cleaning](cleaning/clean_phone_1.png)
+
+[Phone Cleaning](cleaning/clean_phone_f.png)
 
 ---
 
