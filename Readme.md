@@ -337,6 +337,10 @@ The dataset was intentionally populated using SQL `CASE WHEN` statements and `ge
 
 ![Amount Cleaning](cleaning/clean_amount_1.png)
 
+![Amount Cleaning](cleaning/clean_amount_2.png)
+
+![Amount Cleaning](cleaning/clean_amount_3.png)
+
 ---
 
 ## Step 9: Validate Date Column
@@ -353,29 +357,6 @@ YYYY-MM-DD
 
 ---
 
-## Step 10: Check Duplicate Names
-
-### Issues Found
-
-- Sara Ahmed
-- Ali Khan
-
-### Actions Taken
-
-- Verified records using Email and ID
-- Confirmed repeated names were not duplicate customers
-
----
-
-## Step 11: Verify ID Column
-
-### Actions Taken
-
-- Checked for missing IDs
-- Checked for duplicate IDs
-- Confirmed primary key integrity
-
----
 
 # 3️⃣ Cleaned Dataset
 
@@ -424,4 +405,4 @@ YYYY-MM-DD
 
 **Yasir Shah**
 
-Aspiring Data Analyst | SQL | Excel | Data Cleaning | Data Analytics
+Data Analyst | SQL | Excel | Data Cleaning | Data Analytics
