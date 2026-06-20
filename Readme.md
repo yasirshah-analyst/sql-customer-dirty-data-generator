@@ -79,6 +79,13 @@ sql-customer-dirty-data-generator/
 
 ## Create Table
 
+### Purpose
+
+The first step was to create a table to store customer information.
+
+All fields were intentionally created as TEXT data types to allow insertion of invalid values, inconsistent formats, and other data quality issues without database restrictions.
+
+
 ```sql
 CREATE TABLE customers_dirty (
     id SERIAL PRIMARY KEY,
@@ -96,7 +103,17 @@ CREATE TABLE customers_dirty (
 
 ## 📥 Insert Dirty Data
 
-The dataset was intentionally populated with common data quality issues using SQL `CASE WHEN` statements and `generate_series()`.
+### Purpose
+
+Instead of manually creating hundreds of records, PostgreSQL's `generate_series()` function was used to automatically generate 500 customer records.
+
+This approach makes it possible to quickly create realistic datasets for cleaning practice.
+
+### SQL Concept Used
+
+- generate_series()
+- INSERT INTO
+- CASE WHEN
 
 ```sql
 INSERT INTO customers_dirty (
@@ -161,6 +178,28 @@ SELECT
 FROM generate_series(1,500) i;
 ```
 
+## Step 3: Simulate Data Quality Issues
+
+### Purpose
+
+Real business data is rarely perfect.
+
+The dataset was intentionally populated with common data quality problems that analysts frequently encounter.
+
+### Issues Introduced
+
+| Column | Data Quality Issue |
+|----------|----------------|
+| Name | Leading and trailing spaces |
+| Email | Invalid and duplicate emails |
+| Phone | Missing values and invalid formats |
+| City | Inconsistent capitalization |
+| Country | Incorrect country abbreviations |
+| Signup Date | Mixed date formats |
+| Amount | Invalid values and outliers |
+
+---
+
 ### Final Preview
 
 ```sql
@@ -206,19 +245,33 @@ The dataset was intentionally populated using SQL `CASE WHEN` statements and `ge
 
 ## Step 2: Clean Name Column
 
-### Issues Found
+### Issue Identified
 
-- Leading spaces
+Some customer names contained unnecessary leading and trailing spaces.
 
-### Actions Taken
+### Example
 
-- Removed extra spaces using `TRIM()`
+Before:
+
+```text
+"  Ali Khan  "
+```
+
+After:
+
+```text
+"Ali Khan"
+```
 
 ### Formula Used
 
 ```excel
 =TRIM(B2)
 ```
+
+### Why?
+
+TRIM removes extra spaces and improves consistency.
 
 ### Cleaning Evidence
 
@@ -228,55 +281,106 @@ The dataset was intentionally populated using SQL `CASE WHEN` statements and `ge
 
 ## Step 3: Clean Email Column
 
-### Issues Found
+### Issues Identified
 
 - Invalid email addresses
-- Test/Fake Emails
+- Test email accounts
 
 ### Examples
 
-- invalidemail.com
-- test@test.com
-
-### Actions Taken
-
-- Flagged invalid and Test/Fake email formats
+```text
+invalidemail.com
+test@test.com
+```
 
 ### Formula Used
 
 ```excel
-=if(C2="invalidemail.com","Invalid_Format",if(C2="test@test.com","Test/Fake_Email","Valid"))
+=IF(C2="invalidemail.com","Invalid_Format",
+IF(C2="test@test.com","Test/Fake_Email","Valid"))
 ```
-  
+
+### Why?
+
+Email validation helps identify records requiring correction before communication or analysis.
+
 ### Cleaning Evidence
 
 ![Email Cleaning](cleaning/clean_email.png)
 
 ---
 
-## Step 4: Clean Phone Number Column
+## Step 4: Review Phone Number Column
 
-### Issues Found
+### Issues Identified
 
-- Invalid phone formats
 - Missing values
+- Invalid phone formats
+- Inconsistent formatting
+- Excel "Number Stored as Text" warnings (green triangles)
+
+### Why Were Green Triangles Appearing?
+
+The phone number column was imported as text, causing Excel to display green error indicators with the message:
+
+```text
+Number Stored as Text
+```
+
+Phone numbers are identifiers rather than values used for mathematical calculations. Therefore, storing them as text is the recommended approach because it preserves leading zeros and prevents unwanted formatting changes.
+
+### Remove Green Triangle Warnings
+
+To improve worksheet readability:
+
+1. File
+2. Options
+3. Formulas
+4. Error Checking Rules
+5. Uncheck:
+
+```text
+Numbers Formatted as Text or Preceded by an Apostrophe
+```
+
+6. Click OK
 
 ### Examples
 
-- 123-456-789
-- NULL
+```text
+NULL
+123-456-789
+03123456789
+```
 
 ### Actions Taken
 
-- Standardized phone number formats
-- Converted NULL values to blanks
-- Flagged invalid phone records
+- Removed Excel warning indicators
+- Identified missing phone numbers
+- Validated phone number length
+- Flagged invalid phone formats
+
+### Formula Used
 
 ```excel
-=IF(E2="NULL","Missing",IF((LEN(SUBSTITUTE(E2="-",""))<>11,"Invalid",E2))
+=IF(E2="NULL",
+"Missing",
+IF(LEN(SUBSTITUTE(E2,"-",""))<>11,
+"Invalid",
+E2))
 ```
 
+### Why?
+
+The formula:
+
+- Identifies missing phone numbers
+- Removes dashes for validation
+- Checks whether the phone number contains 11 digits
+- Flags invalid records for further review
+
 ### Cleaning Evidence
+
 ![Phone Cleaning](cleaning/raw_phone.png)
 
 ![Phone Cleaning](cleaning/raw_phone_2.png)
