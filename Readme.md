@@ -472,11 +472,25 @@ Standardized city names improve:
 
 ---
 
-## Step 6: Clean Country Column
+## Step 6: Standardize Country Names
+
+### Issue Identified
+
+Country abbreviations:
+
+```text
+IND
+```
+
+### Formula Used
 
 ```excel
 =PROPER(IF(G2="IND","India",G2))
 ```
+
+### Why?
+
+Ensures consistent country naming for analysis.
 
 ### Cleaning Evidence
 
