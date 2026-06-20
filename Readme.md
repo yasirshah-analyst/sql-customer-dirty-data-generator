@@ -129,11 +129,17 @@ CREATE TABLE customers_dirty (
 
 ## 📥 Insert Dirty Data
 
-### Purpose
+To replicate real-world scenarios, a PostgreSQL script was used to generate 500 customer records.
+The dataset was intentionally designed with common data quality issues found in enterprise systems:
 
-Instead of manually creating hundreds of records, PostgreSQL's `generate_series()` function was used to automatically generate 500 customer records.
+* inconsistent text formatting
+* invalid email addresses
+* missing phone numbers
+* incorrect country codes
+* mixed date formats
+* unrealistic financial values and outliers
 
-This approach makes it possible to quickly create realistic datasets for cleaning practice.
+This simulates real challenges faced in CRM, sales, and customer analytics systems.
 
 ### SQL Concept Used
 
