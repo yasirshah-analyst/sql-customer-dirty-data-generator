@@ -213,21 +213,6 @@ FROM customers_dirty;
 
 ---
 
-### Simulated Data Quality Issues
-The dataset was intentionally populated using SQL `CASE WHEN` statements and `generate_series()` to simulate common real-world data quality issues.
-
-| Column | Issues Introduced |
-|----------|----------|
-| Name | Extra spaces, repeated names |
-| Email | Invalid and duplicate emails |
-| Phone | Missing values and invalid formats |
-| City | Inconsistent capitalization and blank values |
-| Country | Incorrect country codes |
-| Signup Date | Mixed date formats |
-| Amount | Non-numeric values and outliers |
-
----
-
 # 2️⃣ Excel Data Cleaning Process
 
 ## Step 1: Inspect the Dataset
@@ -495,22 +480,6 @@ Ensures consistent country naming for analysis.
 ### Cleaning Evidence
 
 ![Country Cleaning](cleaning/clean_country.png)
-
----
-
-## Step 7: Handle Missing City Values
-
-### Actions Taken
-
-- Identified missing city values
-- Replaced with "Missing" where appropriate
-
-```excel
-=PROPER(IF(F2="","Missing",F2))
-```
-
-### Cleaning Evidence
-![Country City](cleaning/clean_city.png)
 
 ---
 
